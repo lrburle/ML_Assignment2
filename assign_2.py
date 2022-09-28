@@ -19,7 +19,8 @@ class assign2:
                 return y
                 
         
-        def backprop(self, ):
+        def backprop(self):
+                
 
 
         def hypothesis(self, x, w):
