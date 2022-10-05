@@ -1,6 +1,5 @@
 import numpy as np
 import matplotlib.pyplot as plt
-import csv
 class assign2:
         def __init__(self):
                 self.a = 0.3 #Learning rate
@@ -20,7 +19,7 @@ class assign2:
                 
         
         def backprop(self):
-                
+
 
 
         def hypothesis(self, x, w):
