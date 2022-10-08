@@ -19,18 +19,18 @@ class Layer:
 
         def forwardprop(self, x):
                 self.X = x
-                self.gIn= np.dot(self.X, self.W) + self.b #Grabs the input prior to the activation function for backprop
-                return self.g(self.gIn) #Apply activation function
+                self.z1= np.dot(self.X, self.W) + self.b #Grabs the input prior to the activation function for backprop
+                return self.g(self.z1) #Apply activation function
         
-        def backprop(self, loss):
-                e1 = self.gDerivative(self.gIn) * loss
+        def backprop(self, dz2):
+                dz1 = self.gDerivative(self.z1) * dz2
                 
-                Xerror = np.dot(e1, self.W.T) 
-                Werror = np.dot(self.X.T, e1)
+                Xerror = np.dot(dz1, self.W.T) 
+                Werror = np.dot(self.X.T, dz1)
 
-		#Gradient Descent - Update Rules
+		            #Gradient Descent - Update Rules
                 self.W  = self.W - self.alpha * Werror
-                self.b = self.b - self.alpha * e1
+                self.b = self.b - self.alpha * dz1
 
                 return Xerror
 
