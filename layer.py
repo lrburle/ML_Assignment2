@@ -1,11 +1,12 @@
 import numpy as np
 
 class Layer:
-        def __init__(self, input_num, output_num, activation, a):
+        def __init__(self, input_num, output_num, activation, activation_deriv, a):
                 self.input = input_num 
                 self.output = output_num
                 self.alpha = a
                 self.g = activation
+                self.gDerivative = activation_deriv
 
                 self.initWeights(self.input, self.output)
                 self.initBias(self.output)
@@ -18,15 +19,20 @@ class Layer:
 
         def forwardprop(self, x):
                 self.X = x
-                out = np.dot(self.X, self.W) + self.b
-                return self.g(out) #Apply activation function
+                self.gIn= np.dot(self.X, self.W) + self.b #Grabs the input prior to the activation function for backprop
+                return self.g(self.gIn) #Apply activation function
         
-        def backprop(self, error):
-                Xerror = np.dot(error, self.W.T) 
-                Werror = np.dot(self.X.T, error)
+        def backprop(self, loss):
+                e1 = self.gDerivative(self.gIn) * loss
+                
+                Xerror = np.dot(e1, self.W.T) 
+                Werror = np.dot(self.X.T, e1)
 
-                self.W -= self.alpha * Werror
-                self.b -= self.alpha * error
+		#Gradient Descent - Update Rules
+                self.W  = self.W - self.alpha * Werror
+                self.b = self.b - self.alpha * e1
+
+                return Xerror
 
 if __name__ == '__main__':
         print('Entered the main function of the Layer object.')
